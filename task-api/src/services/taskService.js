@@ -6,11 +6,12 @@ const getAll = () => [...tasks];
 
 const findById = (id) => tasks.find((t) => t.id === id);
 
-const getByStatus = (status) => tasks.filter((t) => t.status.includes(status));
+// Fixed: was using .includes() which matched substrings
+// 'do' would incorrectly match both 'todo' and 'done'
+const getByStatus = (status) => tasks.filter((t) => t.status === status);
 
 const getPaginated = (page, limit) => {
-  // [Fix applied]: Changed offset logic to (page - 1) for 1-based index support
-  // so that requesting page=1 with limit=10 doesn't skip the first 10 items.
+  // Fixed: was page * limit, so page=1 skipped the first batch entirely
   const offset = (page - 1) * limit;
   return tasks.slice(offset, offset + limit);
 };
@@ -38,6 +39,7 @@ const create = ({ title, description = '', status = 'todo', priority = 'medium',
     status,
     priority,
     dueDate,
+    assignee: null,
     completedAt: null,
     createdAt: new Date().toISOString(),
   };
@@ -66,9 +68,10 @@ const completeTask = (id) => {
   const task = findById(id);
   if (!task) return null;
 
+  // Fixed: original had priority: 'medium' hardcoded here
+  // completing a task should never change its priority
   const updated = {
     ...task,
-    priority: 'medium',
     status: 'done',
     completedAt: new Date().toISOString(),
   };
@@ -78,8 +81,8 @@ const completeTask = (id) => {
   return updated;
 };
 
-// [New Feature]: Add a task assignee.
-// Accepts a name string and stores it on the task object.
+// New feature: assign or unassign a task
+// pass null as assignee to clear it
 const assignTask = (id, assignee) => {
   const task = findById(id);
   if (!task) return null;
