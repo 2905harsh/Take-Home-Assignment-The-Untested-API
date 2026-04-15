@@ -9,7 +9,9 @@ const findById = (id) => tasks.find((t) => t.id === id);
 const getByStatus = (status) => tasks.filter((t) => t.status.includes(status));
 
 const getPaginated = (page, limit) => {
-  const offset = page * limit;
+  // [Fix applied]: Changed offset logic to (page - 1) for 1-based index support
+  // so that requesting page=1 with limit=10 doesn't skip the first 10 items.
+  const offset = (page - 1) * limit;
   return tasks.slice(offset, offset + limit);
 };
 
@@ -76,6 +78,18 @@ const completeTask = (id) => {
   return updated;
 };
 
+// [New Feature]: Add a task assignee.
+// Accepts a name string and stores it on the task object.
+const assignTask = (id, assignee) => {
+  const task = findById(id);
+  if (!task) return null;
+
+  const updated = { ...task, assignee };
+  const index = tasks.findIndex((t) => t.id === id);
+  tasks[index] = updated;
+  return updated;
+};
+
 const _reset = () => {
   tasks = [];
 };
@@ -90,5 +104,6 @@ module.exports = {
   update,
   remove,
   completeTask,
+  assignTask,
   _reset,
 };
