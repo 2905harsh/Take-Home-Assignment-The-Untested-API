@@ -1,26 +1,6 @@
 # Submission Notes
 
- PASS  tests/tasks.test.js
- PASS  tests/taskService.test.js
------------------|---------|----------|---------|---------|-------------------
-File             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
------------------|---------|----------|---------|---------|-------------------
-All files        |   96.75 |    93.25 |    93.1 |   96.26 |                   
- src             |   69.23 |       75 |       0 |   69.23 |                   
-  app.js         |   69.23 |       75 |       0 |   69.23 | 10-11,17-18       
- src/routes      |     100 |    93.75 |     100 |     100 |                   
-  tasks.js       |     100 |    93.75 |     100 |     100 | 23-24             
- src/services    |     100 |    94.73 |     100 |     100 |                   
-  taskService.js |     100 |    94.73 |     100 |     100 | 28                
- src/utils       |   95.65 |    94.11 |     100 |   95.65 |                   
-  validators.js  |   95.65 |    94.11 |     100 |   95.65 | 31                
------------------|---------|----------|---------|---------|-------------------
-
-Test Suites: 2 passed, 2 total
-Tests:       84 passed, 84 total
-Snapshots:   0 total
-Time:        0.476 s, estimated 1 s
-## Bug Fixed — Bug #2: Pagination offset (one-page skip)
+ ## Bug Fixed — Bug #2: Pagination offset (one-page skip)
 
 The assignment asked to fix one bug. I chose Bug #2 (pagination offset) because
 it was the most impactful — every single paginated request returned the wrong
