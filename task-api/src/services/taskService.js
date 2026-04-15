@@ -6,12 +6,15 @@ const getAll = () => [...tasks];
 
 const findById = (id) => tasks.find((t) => t.id === id);
 
-// Fixed: was using .includes() which matched substrings
-// 'do' would incorrectly match both 'todo' and 'done'
-const getByStatus = (status) => tasks.filter((t) => t.status === status);
+// BUG #1 (unfixed): uses .includes() instead of strict equality
+// 'do' incorrectly matches both 'todo' and 'done' as substrings
+// Fix would be: t.status === status
+const getByStatus = (status) => tasks.filter((t) => t.status.includes(status));
 
 const getPaginated = (page, limit) => {
-  // Fixed: was page * limit, so page=1 skipped the first batch entirely
+   // BUG #2 (FIXED): original was offset = page * limit
+  // which skipped the first 'limit' items when page=1
+  // correct formula is (page - 1) * limit for 1-based pagination
   const offset = (page - 1) * limit;
   return tasks.slice(offset, offset + limit);
 };
@@ -67,12 +70,13 @@ const remove = (id) => {
 const completeTask = (id) => {
   const task = findById(id);
   if (!task) return null;
-
-  // Fixed: original had priority: 'medium' hardcoded here
+  // BUG #3 (unfixed): priority is hardcoded to 'medium' here
   // completing a task should never change its priority
+  // Fix would be: remove priority from this object entirely
   const updated = {
     ...task,
     status: 'done',
+    priority: 'medium',
     completedAt: new Date().toISOString(),
   };
 
