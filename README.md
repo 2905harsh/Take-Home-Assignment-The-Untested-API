@@ -86,19 +86,19 @@ ASSIGNMENT.md               # Full brief — read this first
 
 **Create a task**
 ```bash
-curl -X POST http://localhost:3000/tasks \
+curl -X POST https://take-home-assignment-the-untested-api-yedn.onrender.com/tasks \
   -H "Content-Type: application/json" \
   -d '{"title": "Write tests", "priority": "high"}'
 ```
 
 **List tasks with filter**
 ```bash
-curl "http://localhost:3000/tasks?status=pending&page=1&limit=10"
+curl "https://take-home-assignment-the-untested-api-yedn.onrender.com/tasks?status=pending&page=1&limit=10"
 ```
 
 **Mark complete**
 ```bash
-curl -X PATCH http://localhost:3000/tasks/<id>/complete
+curl -X PATCH https://take-home-assignment-the-untested-api-yedn.onrender.com/tasks/<id>/complete
 ```
 
 ---
